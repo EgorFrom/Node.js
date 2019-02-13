@@ -1,31 +1,22 @@
-var events = require('events');
+var fs = require('fs'); //file system
 
-//позволяет унаследовать какие-либо события для группы объектов
-var util = require('util');
+// fs.unlink('outText.txt', function() {
+// 	//begin after delete
+// });//Async
 
-//создаем конструктор
-var Cars = function(model) {
-	this.model = model;
-};
+//Sync
+// fs.mkdirSync('new-one');//create
+// fs.mkdirSync('new-two');//create
+// fs.rmdirSync('new-one');//delete
 
-//конструктору даем обработчик событий
-util.inherits(Cars, events.EventEmitter);
-
-
-var bmw = new Cars('BMW');
-var audi = new Cars('Audi');
-var volvo = new Cars('Volvo');
-
-var cars = [bmw, audi, volvo];
-
-
-cars.forEach(function(car) {
-	//говорим что есть событие speed, и при его срабатывании срабатывает функция
-	car.on('speed', function(text) {
-		console.log(car.model + " speed is " + text);
+//Async create
+fs.mkdir('new-one', function(){
+	fs.writeFile('./new-one/some_new.txt', "Hello, world!", function(){
+		console.log('All ok');
 	});
 });
 
-//иммитируем событие
-bmw.emit('speed', '234');
-volvo.emit('speed', '184');
+// //Async delete
+// fs.unlink('./new-one/some_new.txt', function() {
+// 	fs.rmdir('new-one', function(){});
+// });
