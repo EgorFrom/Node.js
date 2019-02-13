@@ -1,31 +1,10 @@
-var events = require('events');
+var fs = require('fs');
 
-//позволяет унаследовать какие-либо события для группы объектов
-var util = require('util');
-
-//создаем конструктор
-var Cars = function(model) {
-	this.model = model;
-};
-
-//конструктору даем обработчик событий
-util.inherits(Cars, events.EventEmitter);
+var myReadShort = fs.CreateReadStream(__dirname + '/article.txt', 'utf8');
+var myWriteShort = fs.CreateWriteStream(__dirname + '/news.txt');
 
 
-var bmw = new Cars('BMW');
-var audi = new Cars('Audi');
-var volvo = new Cars('Volvo');
-
-var cars = [bmw, audi, volvo];
-
-
-cars.forEach(function(car) {
-	//говорим что есть событие speed, и при его срабатывании срабатывает функция
-	car.on('speed', function(text) {
-		console.log(car.model + " speed is " + text);
-	});
-});
-
-//иммитируем событие
-bmw.emit('speed', '234');
-volvo.emit('speed', '184');
+myReadShort.on('data', function (chunk) {
+	console.log("We get new date:/n");
+	myWriteShort.write(chunk);
+});//data - real action when we get date
