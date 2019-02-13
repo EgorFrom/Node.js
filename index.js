@@ -1,31 +1,25 @@
-var events = require('events');
-
-//позволяет унаследовать какие-либо события для группы объектов
-var util = require('util');
-
-//создаем конструктор
-var Cars = function(model) {
-	this.model = model;
-};
-
-//конструктору даем обработчик событий
-util.inherits(Cars, events.EventEmitter);
+//ассинхронное
+// var fs = require('fs'); //file system
 
 
-var bmw = new Cars('BMW');
-var audi = new Cars('Audi');
-var volvo = new Cars('Volvo');
+// var file_reader = fs.readFile('text.txt', 'utf8', function(err, data) {
+//	функция сработает по окончанию
+//	выводим ошибку, если она есть
+//	data == file_reader
+// 	console.log(data);
+// });
 
-var cars = [bmw, audi, volvo];
+// var message = "Привет мир!";
+// fs.writeFile('outText.txt', message, function(err, data) {
+//	функция сработает по окончанию
+//	выводим ошибку, если она есть
+//	data == message
+// 	console.log(data);
+// });
 
+var fs = require('fs'); //file system
 
-cars.forEach(function(car) {
-	//говорим что есть событие speed, и при его срабатывании срабатывает функция
-	car.on('speed', function(text) {
-		console.log(car.model + " speed is " + text);
-	});
-});
+var file_reader = fs.readFileSync('text.txt', 'utf8'); //пока не прочтем, дальше не пойдем
 
-//иммитируем событие
-bmw.emit('speed', '234');
-volvo.emit('speed', '184');
+var message = "Привет мир!\n" + file_reader;
+fs.writeFileSync('outText.txt', message);//создаем/перезаписываем файл
