@@ -1,22 +1,10 @@
-var fs = require('fs'); //file system
+var http = require('http');
 
-// fs.unlink('outText.txt', function() {
-// 	//begin after delete
-// });//Async
-
-//Sync
-// fs.mkdirSync('new-one');//create
-// fs.mkdirSync('new-two');//create
-// fs.rmdirSync('new-one');//delete
-
-//Async create
-fs.mkdir('new-one', function(){
-	fs.writeFile('./new-one/some_new.txt', "Hello, world!", function(){
-		console.log('All ok');
-	});
+var server = http.createServer(function(req, res) {
+	console.log("Page URL" + req.url);
+	res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});//200 -page found, what date we get?
+	res.end('Hello, world!');	
 });
 
-// //Async delete
-// fs.unlink('./new-one/some_new.txt', function() {
-// 	fs.rmdir('new-one', function(){});
-// });
+server.listen(3000, '127.0.0.1');//port + ip
+console.log("We looking at prot 3000");
