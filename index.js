@@ -1,31 +1,18 @@
-var events = require('events');
+var fs = require('fs');
 
-//позволяет унаследовать какие-либо события для группы объектов
-var util = require('util');
+//connecting to local server
+var http = require('http');
 
-//создаем конструктор
-var Cars = function(model) {
-	this.model = model;
-};
-
-//конструктору даем обработчик событий
-util.inherits(Cars, events.EventEmitter);
-
-
-var bmw = new Cars('BMW');
-var audi = new Cars('Audi');
-var volvo = new Cars('Volvo');
-
-var cars = [bmw, audi, volvo];
-
-
-cars.forEach(function(car) {
-	//говорим что есть событие speed, и при его срабатывании срабатывает функция
-	car.on('speed', function(text) {
-		console.log(car.model + " speed is " + text);
-	});
+var server = http.createServer(function(req, res) {
+	console.log("Page URL" + req.url);
+	res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});//200 -page found, what date we get?
+	var obj = {
+		model: 'Audi',
+		speed: '234.5',
+		wheels: 4
+	};
+	res.end(JSON.stringify(obj));
 });
 
-//иммитируем событие
-bmw.emit('speed', '234');
-volvo.emit('speed', '184');
+server.listen(3000, '127.0.0.1');//port + ip
+console.log("We looking at prot 3000");
